@@ -1,0 +1,172 @@
+<?php
+include('session.php');
+$exp_fetched = mysqli_query($conn, "SELECT * FROM expense WHERE ID = '$username'");
+
+if (isset($_POST['save'])) {
+    $name = $_POST['name'];
+
+    $sql = "UPDATE user SET name='$name' WHERE ID='$username'";
+    if (mysqli_query($conn, $sql)) {
+        echo "Records were updated successfully.";
+    } else {
+        echo "ERROR: Could not able to execute.";
+    }
+    header('location: profile.php');
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Expense Manager - Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="index/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="index/css/style.css" rel="stylesheet">
+
+    <!-- Feather JS for Icons -->
+    <script src="index/js/feather.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper" >
+
+        <!-- Sidebar -->
+        <div class="border-right" id="sidebar-wrapper">
+            <div class="user">
+                <!-- <img class="img img-fluid rounded-circle" src="<?php echo $userprofile ?>" width="120"> -->
+                <h5><?php echo $username ?></h5>
+                <p><?php echo $useremail ?></p>
+            </div>
+            <div class="sidebar-heading">Management</div>
+            <div class="list-group list-group-flush">
+                <a href="index.php" class="list-group-item list-group-item-action"><span data-feather="home"></span> Dashboard</a>
+                <a href="add_expense.php" class="list-group-item list-group-item-action "><span data-feather="plus-square"></span> Add Expenses</a>
+                <a href="manage_expense.php" class="list-group-item list-group-item-action "><span data-feather="dollar-sign"></span> Manage Expenses</a>
+            </div>
+            <div class="sidebar-heading">Settings </div>
+            <div class="list-group list-group-flush">
+                <a href="profile.php" class="list-group-item list-group-item-action sidebar-active"><span data-feather="user"></span> Profile</a>
+                <a href="logout.php" class="list-group-item list-group-item-action "><span data-feather="power"></span> Logout</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <h3 class="mt-4 text-center">Update Profile</h3>
+                        <hr>
+                        <!-- <form class="form" method="post" action="" enctype='multipart/form-data'>
+                            <div class="text-center mt-3">
+                                <img src="<?php echo $userprofile; ?>" class="text-center img img-fluid rounded-circle avatar" width="120" alt="Profile Picture">
+                            </div> 
+                            <div class="input-group col-md mb-3 mt-3">
+                                <div class="custom-file">
+                                    <input type="file" name='file' class="custom-file-input" id="profilepic" aria-describedby="profilepicinput">
+                                    <label class="custom-file-label" for="profilepic">Change Photo</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit" name='but_upload' id="profilepicinput">Upload Picture</button>
+                                </div>
+                            </div>
+
+
+                        </form> -->
+
+
+
+                        <form class="form" action="" method="post" id="registrationForm" autocomplete="off">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="col-md">
+                                            <label for="name">
+                                                Name
+                                            </label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $name; ?>">
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md">
+                                    <label for="email">
+                                        Email
+                                    </label>
+                                    <input type="email" class="form-control" name="email" id="email" value="<?php echo $useremail; ?>" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md">
+                                    <br>
+                                    <button class="btn btn-block btn-md btn-success" style="border-radius:0%;" name="save" type="submit">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!--/tab-content-->
+
+                    </div>
+                    <!--/col-9-->
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="index/js/jquery.slim.min.js"></script>
+    <script src="index/js/bootstrap.min.js"></script>
+    <script src="index/js/Chart.min.js"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+    <script>
+        feather.replace()
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+            var readURL = function(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('.avatar').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+            $(".file-upload").on('change', function() {
+                readURL(this);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
